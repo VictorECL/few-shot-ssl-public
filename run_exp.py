@@ -96,6 +96,9 @@ from fewshot.utils.experiment_logger import ExperimentLogger
 from fewshot.utils.lr_schedule import FixedLearnRateScheduler
 from tqdm import tqdm
 
+from torch.utils.tensorboard import SummaryWriter
+tensorboard = SummaryWriter()
+
 log = logger.get()
 
 flags = tf.flags
@@ -269,6 +272,8 @@ def train(sess,
 
     if (niter + 1) % config.steps_per_valid == 0 and run_eval:
       train_results = evaluate(sess, mvalid, meta_dataset)
+      tensorboard.add_scalar("Accuracy", train_results['acc'], (niter + 1) // config.steps_per_valid)
+      tensorboard.add_scalar("Loss", loss_val, (niter + 1) // config.steps_per_valid)
       if log_results:
         exp_logger.log_train_acc(niter, train_results['acc'])
         exp_logger.log_learn_rate(niter, lr_scheduler.lr)

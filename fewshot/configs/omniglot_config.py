@@ -32,7 +32,7 @@ class BasicConfig(object):
     self.height = 28
     self.width = 28
     self.num_channel = 1
-    self.steps_per_valid = 1000
+    self.steps_per_valid = 100
     self.steps_per_log = 100
     self.steps_per_save = 1000
     self.filter_size = [[3, 3, 1, 64]] + [[3, 3, 64, 64]] * 3
